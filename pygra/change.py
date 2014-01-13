@@ -8,8 +8,10 @@ class Change(object):
 
     def __init__(self, conn, changeId):
         self.conn = conn
-        self.changeInfo = self.conn.GET(os.path.join("a/changes/", changeId))
-        self.changeURL = os.path.join("a/changes/", self.changeInfo.id)
+	# TODO: introduce "authenticated" boolean filed in the ConnectionHelper
+	# and use it to decide whether to add "a/" in the path.
+        self.changeInfo = self.conn.GET("/".join(["a/changes", changeId]))
+        self.changeURL = "/".join(["a/changes", self.changeInfo.id])
 
     def rebase(self):
         address = os.path.join(self.changeURL, "rebase")
