@@ -28,7 +28,7 @@ class ConnectionHelper(object):
     def PUT(self, address, data):
         return self.send(address, "PUT", data)
 
-    def send(self, addr, method, data="{}"):
+    def send(self, addr, method, data={}):
         address = os.path.join(self.url, addr)
         headers = {'Content-Type': 'application/json;charset=UTF-8',
                    'Accept': 'application/json'
@@ -42,7 +42,7 @@ class ConnectionHelper(object):
             response = requests.put(url=address,
                                     headers=headers,
                                     auth=HTTPDigestAuth(self.user, self.password),
-                                    data=data)
+                                    data=json.dumps(data))
 
         elif method == "POST":
             response = requests.post(url=address,
