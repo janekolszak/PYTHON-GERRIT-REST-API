@@ -16,17 +16,26 @@ class Gerrit(object):
 
 
 
-def main():
-    gerrit = Gerrit("", "", "")
+def main(argv):
+    from netrc import netrc
+    from urlparse import urlparse
+    import json
 
-    changeId = ""
+    url = argv[1]
+    changeId = argv[2]
+
+    n = netrc()
+    user, account, password = n.authenticators(urlparse(url).netloc)
+
+    gerrit = Gerrit(user, password, url);
+
 
     change = gerrit.getChange(changeId)
-    print change.changeInfo.id
+    print json.dumps(change.changeInfo, sort_keys=True, indent=4)
 
-    r = change.rebase()
-
-    print r
+    # r = change.rebase()
+    # print r
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv)

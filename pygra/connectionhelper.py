@@ -42,14 +42,15 @@ class ConnectionHelper(object):
             response = requests.put(url=address,
                                     headers=headers,
                                     auth=HTTPDigestAuth(self.user, self.password),
-                                    data=data)
+                                    data=json.dumps(data))
 
         elif method == "POST":
             response = requests.post(url=address,
                                      headers=headers,
                                      auth=HTTPDigestAuth(self.user, self.password),
-                                     data=json.dumps(None))
+                                     data=json.dumps(data))
 
+        response.raise_for_status();
         responseJSON = response.content.replace(')]}\'', '', 1)
 
         def filterKeys(keys):
