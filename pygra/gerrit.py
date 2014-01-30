@@ -1,4 +1,4 @@
-from change import Change
+from change import Change, CommentsList
 from connectionhelper import ConnectionHelper
 
 
@@ -9,7 +9,12 @@ class Gerrit(object):
         self.conn = ConnectionHelper(user, password, url)
 
     def testConnection(self):
-        return self.conn.GET("a/changes/?q=status:open&n=1")
+        return self.conn.GET("a/changes/?q=reviewer:j.olszak&n=1")
+        # return self.conn.GET("a/changes/?q=status:open&n=1")
+
+    def getReviewedChanges(self):
+        return self.conn.GET("a/changes/?q=reviewer:"+ self.conn.user+"+AND+status:open")
+
 
     def getChange(self, changeId):
         return Change(self.conn, changeId)
@@ -21,12 +26,22 @@ def main():
 
     changeId = ""
 
-    change = gerrit.getChange(changeId)
-    print change.changeInfo.id
+    # changes = gerrit.getReviewedChanges()
+    # print changes
+    # for c in changes:
+    #     print c.owner.name
 
-    r = change.rebase()
+    # change = gerrit.getChange(changeId)
+    # print change.changeInfo.id
 
-    print r
+    # # print change.createDraft("db/rules-db.sql", 584, "TEST DRAFT COMMENT")
+
+    # cl = CommentsList ()
+    # cl.addComment(path = "db/rules-db.sql", line = 581, message ="TEST COMMENT")
+    # print change.setReview(message = "TEST MESS", codeReview = -1,  verified = -1, comments =cl)
+    # # r = change.rebase()
+
+    # print r
 
 if __name__ == "__main__":
     main()

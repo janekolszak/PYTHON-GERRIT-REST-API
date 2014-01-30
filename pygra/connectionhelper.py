@@ -48,7 +48,7 @@ class ConnectionHelper(object):
             response = requests.post(url=address,
                                      headers=headers,
                                      auth=HTTPDigestAuth(self.user, self.password),
-                                     data=json.dumps(None))
+                                     data=json.dumps(data))
 
         responseJSON = response.content.replace(')]}\'', '', 1)
 
@@ -67,4 +67,3 @@ class ConnectionHelper(object):
 
         except:
             return responseJSON
-
