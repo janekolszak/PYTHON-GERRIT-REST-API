@@ -8,10 +8,6 @@ class Gerrit(object):
     def __init__(self, user, password, url):
         self.conn = ConnectionHelper(user, password, url)
 
-    def testConnection(self):
-        return self.conn.GET("a/changes/?q=reviewer:j.olszak&n=1")
-        # return self.conn.GET("a/changes/?q=status:open&n=1")
-
     def getReviewedChanges(self):
         return self.conn.GET("a/changes/?q=reviewer:"+ self.conn.user+"+AND+status:open")
 

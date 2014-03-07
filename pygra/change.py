@@ -31,8 +31,8 @@ class Change(object):
 
     def __init__(self, conn, changeId):
         self.conn = conn
-        self.changeInfo = self.conn.GET(os.path.join("a/changes/", changeId))
-        self.changeURL = os.path.join("a/changes/", self.changeInfo.id)
+        self.changeInfo = self.conn.GET("a/changes/?q=" + changeId + "&o=CURRENT_REVISION&o=DOWNLOAD_COMMANDS")[0]
+        self.changeURL = os.path.join("a/changes/", self.changeInfo["id"])
 
     def rebase(self):
         address = os.path.join(self.changeURL, "rebase")

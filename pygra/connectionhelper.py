@@ -52,18 +52,4 @@ class ConnectionHelper(object):
 
         responseJSON = response.content.replace(')]}\'', '', 1)
 
-        def filterKeys(keys):
-            # Field names can't start with '_'
-            newKeys = []
-            for k in keys:
-                if k[0] == '_':
-                    newKeys.append(k[1:])
-                else:
-                    newKeys.append(k)
-
-            return newKeys
-        try:
-            return json.loads(responseJSON, object_hook=lambda d: namedtuple('GerritEntity', filterKeys(d.keys()))(*d.values()))
-
-        except:
-            return responseJSON
+        return json.loads(responseJSON)
