@@ -36,17 +36,20 @@ class ConnectionHelper(object):
         if method == "GET":
             response = requests.get(url=address,
                                     headers=headers,
+                                    verify=False,
                                     auth=HTTPDigestAuth(self.user, self.password))
 
         elif method == "PUT":
             response = requests.put(url=address,
                                     headers=headers,
+                                    verify=False,
                                     auth=HTTPDigestAuth(self.user, self.password),
                                     data=json.dumps(data))
 
         elif method == "POST":
             response = requests.post(url=address,
                                      headers=headers,
+                                     verify=False,
                                      auth=HTTPDigestAuth(self.user, self.password),
                                      data=json.dumps(data))
 
